@@ -10,37 +10,45 @@
 angular.module('codefiddleApp')
   .controller('MainCtrl', function ($scope) {
 
-    $scope.html ="";
-    $scope.css="";
-    $scope.javascript="";
+    $scope.html = '';
+    $scope.css = '';
+    $scope.javascript = '';
+    $scope.library = '<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>';
 
-    $scope.aceChanged = function(){
+    $scope.aceChanged = function () {
       console.log('changed');
-      $scope.run();
     };
 
-    $scope.run = function(){
-      var result ='<!DOCTYPE html>' +
+    $scope.run = function () {
+      var result = '<!DOCTYPE html>' +
         '<html>' +
-        '<head lang="en"> <meta charset="UTF-8"> <title></title><style>'+$scope.css+'</style> </head> <body>'+
+        '<head lang="en"> <meta charset="UTF-8"> <title></title><style>' + $scope.css + '</style> </head> <body>' +
         $scope.html +
-          '<script type="text/javascript">' +
-          $scope.javascript+
-          '</script>'
+          $scope.library+
+        '<script type="text/javascript">' +
+        $scope.javascript +
+        '</script>' +
         '</body></html>';
-
 
 
       var iframe = document.getElementById('result');
       var doc;
 
-      if(iframe.contentDocument) doc = iframe.contentDocument;
-      else if(iframe.contentWindow) doc = iframe.contentWindow.document;
-      else doc = iframe.document;
+      if (iframe.contentDocument) {
+        doc = iframe.contentDocument;
+      }
+      else {
+        if (iframe.contentWindow) {
+          doc = iframe.contentWindow.document;
+        } else {
+          doc = iframe.document;
+        }
+      }
 
-      doc.open();
-      doc.writeln(result);
-      doc.close();
-    }
+    doc.open();
+    doc.writeln(result);
+    doc.close();
+  };
 
-  });
+})
+;
